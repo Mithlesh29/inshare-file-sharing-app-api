@@ -35,7 +35,6 @@ router.post('/send', async (req, res) => {
   if(!uuid || !emailTo || !emailFrom) {
       return res.status(422).send({ error: 'All fields are required except expiry.'});
   }
-  // Get data from db 
   try {
     const file = await File.findOne({ uuid: uuid });
     if(file.sender) {
@@ -44,7 +43,6 @@ router.post('/send', async (req, res) => {
     file.sender = emailFrom;
     file.receiver = emailTo;
     const response = await file.save();
-    // send mail
     const sendMail = require('../services/mailService');
     sendMail({
       from: emailFrom,
